@@ -1,0 +1,5 @@
+/tbc
+/.chainlit
+**/__pycache__
+chainlit.md
+.env
