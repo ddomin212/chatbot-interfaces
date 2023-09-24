@@ -1,5 +1,6 @@
 import os
 import tempfile
+from io import BytesIO
 
 import streamlit as st
 
@@ -8,7 +9,8 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import FAISS
 from langchain.document_loaders import PyPDFLoader, TextLoader, Docx2txtLoader
 
-def save_as_temp_file(file):
+
+def save_as_temp_file(file: BytesIO) -> str:
     """Saves the uploaded file as a temporary file on disk, because of langchin document loaders
     
     Args:
@@ -19,7 +21,7 @@ def save_as_temp_file(file):
         temp_file_path = temp_file.name
     return temp_file_path
 
-def load_uploaded_file(file, temp_file_path):
+def load_uploaded_file(file: BytesIO, temp_file_path: str) -> PyPDFLoader | Docx2txtLoader | TextLoader | None:
     """Loads the uploaded file with the appropriate document loader
     
     Args:
@@ -40,7 +42,7 @@ def load_uploaded_file(file, temp_file_path):
     
     return loader
 
-def parse_uploaded_document(file, text):
+def parse_uploaded_document(file: BytesIO, text: list[str]) -> None:
     """Parses the uploaded file and appends the corpus of text (knowledge base)
     
     Args:
@@ -56,7 +58,7 @@ def parse_uploaded_document(file, text):
         text.extend(loader.load())
         os.remove(temp_file_path)
 
-def create_vector_db(text):
+def create_vector_db(text: list[str]) -> FAISS:
     """Creates a vector store from the corpus of text
     
     Args:

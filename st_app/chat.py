@@ -1,6 +1,8 @@
 import streamlit as st
 
-def get_chatbot_response(query, chain, history):
+from langchain.chains import ConversationalRetrievalChain
+
+def get_chatbot_response(query: str, chain: ConversationalRetrievalChain, history: list[dict[str, str]]) -> str:
     """Runs the chain, gets the generated response and saves it as a tulpe with users query in chat history.
 
     Args:
@@ -14,7 +16,7 @@ def get_chatbot_response(query, chain, history):
     result = chain({"question": query, "chat_history": history})
     return result["answer"]
 
-def process_user_input(prompt):
+def process_user_input(prompt: str) -> None:
     """Adds the user input to the chat history.
 
     Args:
@@ -25,7 +27,7 @@ def process_user_input(prompt):
     with st.chat_message("user"):
         st.markdown(prompt)
 
-def process_chatbot_response(prompt, chain):
+def process_chatbot_response(prompt: str, chain: ConversationalRetrievalChain) -> None:
     """Generates the chatbot response and adds it to the chat history.
 
     Args:
@@ -40,7 +42,7 @@ def process_chatbot_response(prompt, chain):
 
     st.session_state.messages.append({"role": "assistant", "content": response})
 
-def display_chat_history(chain):
+def display_chat_history(chain: ConversationalRetrievalChain) -> None:
     """Displays the chat history and the input field for the user to ask questions.
 
     Args:

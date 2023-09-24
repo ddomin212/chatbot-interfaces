@@ -3,13 +3,15 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.llms import CTransformers, Replicate
 from langchain.memory import ConversationBufferMemory
 from streaming_handler import StreamingResponseHandler
+from langchain.vectorstores import FAISS
+from io import BytesIO
 
-def init_st_session_state():
+def init_st_session_state() -> None:
     """Initializes the session state variables for chatting. These include the chat history, the generated responses, and the past user inputs."""
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-def render_st_elements():
+def render_st_elements() -> tuple[float, list[BytesIO]]:
     """Renderes various streamlit elements on the page."""
     
     # setup page
@@ -23,7 +25,7 @@ def render_st_elements():
     
     return temp_slider, uploaded_files
 
-def create_conversational_chain(vector_store, temp = 0.15):
+def create_conversational_chain(vector_store: FAISS, temp = 0.15) -> ConversationalRetrievalChain:
     """Creates a chatbot chain with memory
 
     Args:

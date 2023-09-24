@@ -7,7 +7,7 @@ from chat import display_chat_history
 
 load_dotenv()
 
-def main():
+def main() -> None:
     init_st_session_state()
     temp_slider, uploaded_files = render_st_elements()
 
